@@ -5,13 +5,13 @@
 
 <p> Devem ser utilizados: </p> 
 
-<ol>
-  <li>**API**</li>
-  <li>**Banco**</li>
-  <li>**Nuvem**</li>
-  <li>**Swagger**</li>
-  <li>Dentre outros...</li>
-</ol>
+```
+**API**
+**Banco**
+**Nuvem**
+**Swagger**
+Dentre outros...
+```
 
 
 ## ***Swagger*** 
