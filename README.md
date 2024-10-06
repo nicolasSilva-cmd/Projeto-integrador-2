@@ -9,5 +9,6 @@
   <li>API</li>
   <li>Banco</li>
   <li>Nuvem</li>
+  <li>Swagger</li>
   <li>Dentre outros...</li>
 </ol>
