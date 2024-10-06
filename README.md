@@ -12,3 +12,8 @@
   <li>Swagger</li>
   <li>Dentre outros...</li>
 </ol>
+
+
+<h2> Swagger </h2>
+<br>
+<p> Para acessar a documentação do projeto, deve subir a aplicação e em seguida acessar o endereço: <a>localhost:8080/swagger-ui.html</a></p>
