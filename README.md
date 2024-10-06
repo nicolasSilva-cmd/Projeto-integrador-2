@@ -12,4 +12,4 @@
 - Dentre outros...
 
 ## ***Swagger*** 
-Para acessar a documentação do projeto, deve subir a aplicação e em seguida acessar o endereço: [swagger](localhost:8080/swagger-ui.html)
+Para acessar a documentação do projeto, deve subir a aplicação e em seguida acessar o endereço: localhost:8080/swagger-ui.html
