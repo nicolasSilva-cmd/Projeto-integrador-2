@@ -1,7 +1,9 @@
 package com.univesp.apilivros.service;
 
 import com.univesp.apilivros.model.Aluno;
+import com.univesp.apilivros.model.dto.AlunoDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.UriComponentsBuilder;
 
 
 public interface AlunoService {
@@ -9,11 +11,11 @@ public interface AlunoService {
     ResponseEntity listAll();
 
     ResponseEntity findById(Integer id);
-    ResponseEntity include(Aluno aluno);
+    ResponseEntity include(AlunoDto aluno, UriComponentsBuilder uri);
 
     ResponseEntity update(
              Integer id,
-             Aluno aluno);
+             AlunoDto aluno);
 
     ResponseEntity remove(Integer id);
 }

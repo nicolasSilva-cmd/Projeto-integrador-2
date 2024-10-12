@@ -1,8 +1,11 @@
 package com.univesp.apilivros.service.impl;
 
+import com.univesp.apilivros.mapper.PojoMapper;
 import com.univesp.apilivros.model.Aluno;
 import com.univesp.apilivros.model.Livro;
 import com.univesp.apilivros.model.LivroId;
+import com.univesp.apilivros.model.dto.AlunoDto;
+import com.univesp.apilivros.model.dto.LivroDto;
 import com.univesp.apilivros.repository.AlunoRepository;
 import com.univesp.apilivros.repository.LivroRepository;
 import com.univesp.apilivros.service.AlunoService;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,6 +32,9 @@ public class AlunoImpl implements AlunoService {
     @Autowired
     LivroRepository livroRepository;
 
+    @Autowired
+    PojoMapper mapper;
+
     @Override
     public ResponseEntity listAll() {
         List<Aluno> alunos = repository.findAll();
@@ -44,31 +51,34 @@ public class AlunoImpl implements AlunoService {
     }
 
     @Override
-    public ResponseEntity include(Aluno aluno) {
+    public ResponseEntity include(AlunoDto aluno, UriComponentsBuilder uri) {
 
         if(aluno.getLivros() != null && !aluno.getLivros().isEmpty()) {
-            for (Livro livro : aluno.getLivros()) {
+            for (LivroDto livro : aluno.getLivros()) {
                 Livro livroExistente = livroRepository.findLivroByTitulo(livro.getTitulo())
                         .orElseThrow(() -> new EntityNotFoundException("Livro não encontrado: " + livro.getTitulo()));
 
-                if (livroExistente.getQuantidade() <= 0) {
+                LivroDto livroDtoExistente = mapper.livroEntityToDto(livroExistente);
+                if (livroDtoExistente.getQuantidade() <= 0) {
                     throw new IllegalStateException("Não há exemplares disponíveis do livro: " + livroExistente.getTitulo());
                 }
 
-                livroExistente.setQuantidade(livroExistente.getQuantidade() - 1);
-                livroRepository.save(livroExistente);
+                livroDtoExistente.setQuantidade(livroExistente.getQuantidade() - 1);
+                livroRepository.save(mapper.livroDtoToEntity(livroDtoExistente));
             }
+            var url = uri.path("/alunos/{id}").buildAndExpand("alunos.getId").toUri();
 
-            return ResponseEntity.ok(aluno);
+            return ResponseEntity.ok().location(url).build();
         }
+        Aluno entity = repository.save(mapper.alunoDtoToEntity(aluno));
 
-        aluno.setDataEmprestimo("000");
-        Aluno entity = repository.save(aluno);
-        return ResponseEntity.status(201).body(entity);
+        var url = uri.path("/alunos").build().toUri();
+
+        return ResponseEntity.status(201).location(url).body(entity);
     }
 
     @Override
-    public ResponseEntity update(Integer id, Aluno aluno) {
+    public ResponseEntity update(Integer id, AlunoDto aluno) {
         Aluno entity = repository.getReferenceById(id);
         if(entity == null){
             throw new EntityNotFoundException("Aluno não encontrado, procure por outro id");
@@ -91,5 +101,7 @@ public class AlunoImpl implements AlunoService {
         repository.delete(aluno);
         return ResponseEntity.noContent().build();
     }
+
+
 
 }

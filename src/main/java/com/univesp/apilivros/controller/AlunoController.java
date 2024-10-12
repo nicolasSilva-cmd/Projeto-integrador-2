@@ -1,14 +1,17 @@
 package com.univesp.apilivros.controller;
 
 import com.univesp.apilivros.model.Aluno;
+import com.univesp.apilivros.model.dto.AlunoDto;
 import com.univesp.apilivros.service.AlunoService;
 import com.univesp.apilivros.service.impl.LivroAlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/alunos")
+@CrossOrigin("*")
 public class AlunoController {
 
     @Autowired
@@ -28,13 +31,13 @@ public class AlunoController {
     }
 
     @PostMapping
-    ResponseEntity include(@RequestBody Aluno aluno){
-        return service.include(aluno);
+    ResponseEntity include(@RequestBody AlunoDto aluno, UriComponentsBuilder uri){
+        return service.include(aluno, uri);
     }
 
     @PutMapping("{id}")
     ResponseEntity update(@PathVariable ("id") Integer id,
-            @RequestBody Aluno aluno){
+            @RequestBody AlunoDto aluno){
         return service.update(id,aluno);
     }
 
