@@ -9,7 +9,7 @@ import lombok.*;
 @EqualsAndHashCode
 public class Books {
 
-    private String author;
-    private String title;
-    private Integer totalItems;
+    private String autor;
+    private String titulo;
+    private Integer quantidade;
 }

@@ -20,13 +20,13 @@ public class LivroController {
     ResponseEntity listAll(){
      return service.listAll();
     }
-    @GetMapping("{titulo}")
+    @GetMapping("/titulo/{titulo}")
     ResponseEntity findById(@PathVariable("titulo") String titulo){
         return service.findById(titulo);
     }
-    @GetMapping("{autor}")
+    @GetMapping("/autor/{autor}")
     ResponseEntity findByAutor(@PathVariable("autor") String autor) {
-        return findByAutor(autor);
+        return service.findByAutor(autor);
     }
     @PostMapping
     ResponseEntity create(@RequestBody LivroDto livro){

@@ -38,8 +38,8 @@ public class GatewayImpl implements GatewayService {
         try{
             Books book = retrieveBooks(isbn);
 
-            String data = new String(book.getTitle().getBytes("utf-8"), "utf-8");
-            LivroDto dto = new LivroDto(data, book.getAuthor(), quantidade);
+            String data = new String(book.getTitulo().getBytes("utf-8"), "utf-8");
+            LivroDto dto = new LivroDto(data, book.getAutor(), quantidade);
             Livro entity = mapper.livroDtoToEntity(dto);
             repository.save(entity);
             return ResponseEntity.ok(entity);

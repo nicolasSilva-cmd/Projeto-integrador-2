@@ -26,7 +26,7 @@ public class LivroAlunoService {
         Aluno aluno = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado"));
 
-        Livro livro = livroRepository.findLivroByTitulo(titulo)
+        Livro livro = livroRepository.findFirstByTitulo(titulo)
                 .orElseThrow(() -> new EntityNotFoundException("Livro não encontrado"));
 
         if (!aluno.getLivros().contains(livro)) {
@@ -34,7 +34,10 @@ public class LivroAlunoService {
         }
 
         aluno.getLivros().remove(livro);
-        aluno.setDataEmprestimo(String.valueOf(LocalDate.of(LocalDate.now().getYear(), Month.JANUARY,01)));
+        if(aluno.getLivros().isEmpty()){
+            aluno.setDataEmprestimo(String.valueOf(LocalDate.of(LocalDate.now().getYear(), Month.JANUARY,01)));
+            aluno.setMotivo("Sem livros.");
+        }
         livro.setQuantidade(livro.getQuantidade() + 1);
         livroRepository.save(livro);
         repository.save(aluno);
@@ -45,7 +48,7 @@ public class LivroAlunoService {
         Aluno aluno = repository.findById(alunoId)
                 .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado"));
 
-        Livro livro = livroRepository.findLivroByTitulo(livroId)
+        Livro livro = livroRepository.findFirstByTitulo(livroId)
                 .orElseThrow(() -> new EntityNotFoundException("Livro não encontrado"));
 
         if (livro.getQuantidade() <= 0) {
@@ -54,10 +57,9 @@ public class LivroAlunoService {
 
         livro.setQuantidade(livro.getQuantidade() - 1);
         livroRepository.save(livro); // Atualiza a quantidade no banco de dados
-        if(aluno.getLivros().size() > 0){
-            aluno.getLivros().remove(0);
+        if(aluno.getLivros().isEmpty()){
+            aluno.setDataEmprestimo(String.valueOf(LocalDate.now()));
         }
-        aluno.setDataEmprestimo(String.valueOf(LocalDate.now()));
         aluno.getLivros().add(livro);
         repository.save(aluno);
         return ResponseEntity.ok(aluno);

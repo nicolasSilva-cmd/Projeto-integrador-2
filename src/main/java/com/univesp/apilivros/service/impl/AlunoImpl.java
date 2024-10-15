@@ -3,7 +3,6 @@ package com.univesp.apilivros.service.impl;
 import com.univesp.apilivros.mapper.PojoMapper;
 import com.univesp.apilivros.model.Aluno;
 import com.univesp.apilivros.model.Livro;
-import com.univesp.apilivros.model.LivroId;
 import com.univesp.apilivros.model.dto.AlunoDto;
 import com.univesp.apilivros.model.dto.LivroDto;
 import com.univesp.apilivros.repository.AlunoRepository;
@@ -16,7 +15,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +53,7 @@ public class AlunoImpl implements AlunoService {
 
         if(aluno.getLivros() != null && !aluno.getLivros().isEmpty()) {
             for (LivroDto livro : aluno.getLivros()) {
-                Livro livroExistente = livroRepository.findLivroByTitulo(livro.getTitulo())
+                Livro livroExistente = (Livro) livroRepository.findLivroByTituloContainingIgnoreCase(livro.getTitulo())
                         .orElseThrow(() -> new EntityNotFoundException("Livro não encontrado: " + livro.getTitulo()));
 
                 LivroDto livroDtoExistente = mapper.livroEntityToDto(livroExistente);

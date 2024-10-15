@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
@@ -23,6 +24,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnsupportedEncodingException.class)
     public  ResponseEntity<ResponseError> cantEncode(UnsupportedEncodingException ex) {
+        ResponseError responseError = new ResponseError(HttpStatus.BAD_REQUEST,
+                ex.getMessage(),
+                LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public  ResponseEntity<ResponseError> sqlError(SQLIntegrityConstraintViolationException ex) {
         ResponseError responseError = new ResponseError(HttpStatus.BAD_REQUEST,
                 ex.getMessage(),
                 LocalDateTime.now());
