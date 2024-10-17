@@ -28,7 +28,7 @@ public class GatewayImpl implements GatewayService {
 
     public Books retrieveBooks(String isbn) {
         ApiEntity entity = api.getBooks(isbn);
-        return  new Books(entity.getItems().get(0).getVolumeInfo().getAuthor().get(0),
+        return new Books(entity.getItems().get(0).getVolumeInfo().getAuthor().get(0),
                 entity.getItems().get(0).getVolumeInfo().getTitle(),
                 entity.getTotalItems());
     }

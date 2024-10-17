@@ -59,6 +59,7 @@ public class LivroAlunoService {
         livroRepository.save(livro); // Atualiza a quantidade no banco de dados
         if(aluno.getLivros().isEmpty()){
             aluno.setDataEmprestimo(String.valueOf(LocalDate.now()));
+            aluno.setMotivo("Leitura não finalizada.");
         }
         aluno.getLivros().add(livro);
         repository.save(aluno);
