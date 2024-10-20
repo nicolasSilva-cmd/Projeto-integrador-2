@@ -1,6 +1,5 @@
 package com.univesp.apilivros.service;
 
-import com.univesp.apilivros.model.Aluno;
 import com.univesp.apilivros.model.dto.AlunoDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,4 +17,6 @@ public interface AlunoService {
              AlunoDto aluno);
 
     ResponseEntity remove(Integer id);
+
+    ResponseEntity findByNome(String nome);
 }

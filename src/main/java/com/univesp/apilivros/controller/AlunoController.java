@@ -30,6 +30,8 @@ public class AlunoController {
         return service.findById(id);
     }
 
+    @GetMapping({"/nome/{nome}"})
+    ResponseEntity findByNome(@PathVariable("nome") String nome){return service.findByNome(nome);}
     @PostMapping
     ResponseEntity include(@RequestBody AlunoDto aluno, UriComponentsBuilder uri){
         return service.include(aluno, uri);

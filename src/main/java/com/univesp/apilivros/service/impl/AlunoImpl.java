@@ -100,6 +100,14 @@ public class AlunoImpl implements AlunoService {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
+    public ResponseEntity findByNome(String nome) {
+        Optional<List<Aluno>> aluno = repository.findAlunoByNameContainingIgnoreCase(nome);
+        if(aluno.isEmpty()){
+            throw new EntityNotFoundException("Aluno não encontrado, procure por outro nome");
+        }
+        return ResponseEntity.ok(aluno);
+    }
 
 
 }
