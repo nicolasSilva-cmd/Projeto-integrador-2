@@ -1,6 +1,7 @@
 package com.univesp.apilivros.service;
 
 import com.univesp.apilivros.model.dto.AlunoDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
